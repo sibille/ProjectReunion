@@ -149,7 +149,7 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll        
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\x86'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\x86'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -161,7 +161,7 @@ jobs:
         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\anycpu'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\anycpu'
       flattenFolders: false
 
   - task: CopyFiles@2
@@ -170,7 +170,7 @@ jobs:
       SourceFolder: '$(MRTBinariesDirectory)\Release\AnyCPU\Microsoft.ApplicationModel.Resources.Projection'
       Contents: |
         Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\anycpu'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\anycpu'
       flattenFolders: true
   
   - task: CopyFiles@2
@@ -183,7 +183,7 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\x64'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\x64'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -196,456 +196,458 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\ARM64'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\ARM64'
       flattenFolders: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: Binaries'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\raw'
-      ArtifactName: 'binaries_raw'
-
-- job: SignMRT
-  condition: and(succeeded(), eq(variables.codeSign, true))
-  dependsOn:
-    - BuildMRT
-  pool:
-    vmImage: 'windows-latest'
-  
-  variables:
-    solution: '**/*.sln'
-    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
-    codeSign: false
-
-  strategy:
-    maxParallel: 4
-    matrix:
-      Release_ANYCPU:
-        buildPlatform: 'anycpu'
-        buildConfiguration: 'Release'
-      Release_x86:
-        buildPlatform: 'x86'
-        buildConfiguration: 'Release'
-      Release_x64:
-        buildPlatform: 'x64'
-        buildConfiguration: 'Release'
-      Release_ARM64:
-        buildPlatform: 'ARM64'
-        buildConfiguration: 'Release'
-
-  steps:
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download: Raw Binaries'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'binaries_raw'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-  
-#  - task: PkgESCodeSign@10
-#    env:
-#      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-#    inputs:
-#      signConfigXml: 'SignConfig.xml'
-#      inPathRoot: '$(BUILD.ArtifactStagingDirectory)\raw\binaries_raw\lib'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: Signed Binaries'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw'
-      ArtifactName: 'signedbinaries_$(BuildPlatform)'
-
-- job: PublishMRT
-  dependsOn:
-    - BuildMRT
-    - SignMRT
-  condition: and(in(dependencies.BuildMRT.result, 'Succeeded'), in(dependencies.SignMRT.result, 'Succeeded', 'Skipped'))
-  pool:
-    vmImage: 'windows-latest'
-  
-  variables:
-    solution: '**/*.sln'
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
-    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
-    Major: '1'
-    Minor: '0'
-    Patch: '0'
-    codeSign: ${{ eq(variables['System.definitionId'], '1356') }}
-    MRTSourcesDirectory: $(Build.SourcesDirectory)\dev\MRTCore
-
-  steps:
-  - task: DownloadBuildArtifacts@0
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'Download: Signed Binaries AnyCPU'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'signedbinaries_anycpu'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-
-  - task: DownloadBuildArtifacts@0
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'Download: Signed Binaries x86'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'signedbinaries_x86'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-
-  - task: DownloadBuildArtifacts@0
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'Download: Signed Binaries x64'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'signedbinaries_x64'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-
-  - task: DownloadBuildArtifacts@0
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'Download: Signed Binaries ARM64'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'signedbinaries_ARM64'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-
-# START of copying files into their final package location.
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy winmd'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
-      Contents: |
-        signed\Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy .net 5 projection DLL and PDB'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
-      Contents: |
-        net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-        signed\net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy .net 2 projection DLL and PDB'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
-      Contents: |
-        netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-        signed\netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy x86'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x86\lib\x86'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        signed\mrm.dll
-        signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        signed\mrm.dll
-        signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        signed\mrm.dll
-        signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy import lib x86'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x86\lib\x86'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy import lib x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy import lib ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
-      flattenFolders: true
-
-  - task: DownloadBuildArtifacts@0
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'Download: Unsigned Binaries'
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'binaries_raw'
-      downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned winmd'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
-      Contents: |
-        Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned .net 5 projection DLL and PDB'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
-      Contents: |
-        net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-        net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned .net 2 projection DLL and PDB'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
-      Contents: |
-        netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-        netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned x86'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x86'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        mrm.dll
-        Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        mrm.dll
-        Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        mrm.dll
-        Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned import lib x86'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x86'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned import lib x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned import lib ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
-      flattenFolders: true
-
-  - task: CopyFiles@2
-    displayName: 'copy packaging files'
-    inputs:
-      SourceFolder: '$(MRTSourcesDirectory)\packaging'
-      Contents: |
-        Microsoft.ApplicationModel.Resources.PriGen.targets
-        Microsoft.ApplicationModel.Resources.References.targets
-        Microsoft.ApplicationModel.Resources.targets
-        native\Microsoft.ApplicationModel.Resources.C.props
-        native\Microsoft.ApplicationModel.Resources.props
-        native\Microsoft.ApplicationModel.Resources.targets
-        native\Microsoft.ApplicationModel.Resources.WinRt.props
-        README.md
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\build'
-      flattenFolders: false
-
-  - task: CopyFiles@2
-    displayName: 'copy header'
-    inputs:
-      SourceFolder: '$(MRTSourcesDirectory)\mrt\core\src'
-      Contents: |
-        mrm.h
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\include'
-
-  - task: CopyFiles@2
-    displayName: 'copy license'
-    inputs:
-      SourceFolder: '$(MRTSourcesDirectory)'
-      Contents: |
-        LICENSE.txt
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt'
-
-# END of copying files into their final package location.
-  
-  # NuGetCommand@2
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    inputs:
-      command: 'pack'
-      packagesToPack: '$(MRTSourcesDirectory)\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
-      versioningScheme: 'byPrereleaseNumber'
-      majorVersion: '$(Major)'
-      minorVersion: '$(Minor)'
-      patchVersion: '$(Patch)'
-      basePath: '$(Build.ArtifactStagingDirectory)\mrt'
-      packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
-  
-#  - task: PkgESCodeSign@10
-#    condition: and(succeeded(), eq(variables.codeSign, true))
-#    env:
-#      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-#    inputs:
-#      signConfigXml: 'SignConfig-nuget.xml'
-#      inPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
-#      outPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
-  
-  - task: PublishBuildArtifacts@1
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
       ArtifactName: 'drop'
 
-  - task: PublishBuildArtifacts@1
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget\signed'
-      ArtifactName: 'drop'
+    
+# UNDONE by getrou.  We want to include it in our own ProjectReunion nuget package.
+# - job: SignMRT
+#   condition: and(succeeded(), eq(variables.codeSign, true))
+#   dependsOn:
+#     - BuildMRT
+#   pool:
+#     vmImage: 'windows-latest'
+  
+#   variables:
+#     solution: '**/*.sln'
+#     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+#     codeSign: false
 
-  # NuGetCommand@2
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'publish to MRTCore feed'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/nuget/signed/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-      nuGetFeedType: 'internal'
-      publishVstsFeed: '2771a91e-5705-4d88-a3e9-70623b166f8d/659bea81-0d99-4dc0-b32f-200cd635e5ad'
+#   strategy:
+#     maxParallel: 4
+#     matrix:
+#       Release_ANYCPU:
+#         buildPlatform: 'anycpu'
+#         buildConfiguration: 'Release'
+#       Release_x86:
+#         buildPlatform: 'x86'
+#         buildConfiguration: 'Release'
+#       Release_x64:
+#         buildPlatform: 'x64'
+#         buildConfiguration: 'Release'
+#       Release_ARM64:
+#         buildPlatform: 'ARM64'
+#         buildConfiguration: 'Release'
 
-# TODO: get the test app to build using the NuGet package generated earlier in the pipeline.
-#- task: NuGetCommand@2
-#  displayName: 'NuGet restore of test apps'
-#  env:
-#    # The RuntimeIdentifier property in a .csproj is constructed using win-$(Platform). AnyCPU is the default platform, but
-#    # "win-AnyCPU" is an invalid RuntimeIdentifier. Just use the platform x64 instead! It doesn't matter whether x86 or x64 is used.
-#    NUGET_RESTORE_MSBUILD_ARGS: /p:Platform=x64
-#  inputs:
-#    command: 'restore'
-#    restoreSolution: |
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
-#    feedsToUse: 'select'
-#    includeNuGetOrg: false
-#    vstsFeed: '$(Build.ArtifactStagingDirectory)\nuget'
+#   steps:
+#   - task: DownloadBuildArtifacts@0
+#     displayName: 'Download: Raw Binaries'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'binaries_raw'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
+  
+# #  - task: PkgESCodeSign@10
+# #    env:
+# #      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+# #    inputs:
+# #      signConfigXml: 'SignConfig.xml'
+# #      inPathRoot: '$(BUILD.ArtifactStagingDirectory)\raw\binaries_raw\lib'
 
-# TODO: use the $(solution) variable instead. That'll build all solution files in the repo. Currently, this isn't being done because getting
-# $(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln to build in the pipeline is being deferred.
+#   - task: PublishBuildArtifacts@1
+#     displayName: 'Publish Artifact: Signed Binaries'
+#     inputs:
+#       PathtoPublish: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw'
+#       ArtifactName: 'signedbinaries_$(BuildPlatform)'
 
-#- task: VSBuild@1
-#  displayName: 'build x86'
-#  inputs:
-#    platform: 'x86'
-#    solution: |
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
-#    configuration: '$(buildConfiguration)'
-#    msbuildArgs: '/p:AppxBundlePlatforms="x86" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+# - job: PublishMRT
+#   dependsOn:
+#     - BuildMRT
+#     - SignMRT
+#   condition: and(in(dependencies.BuildMRT.result, 'Succeeded'), in(dependencies.SignMRT.result, 'Succeeded', 'Skipped'))
+#   pool:
+#     vmImage: 'windows-latest'
+  
+#   variables:
+#     solution: '**/*.sln'
+#     buildPlatform: 'Any CPU'
+#     buildConfiguration: 'Release'
+#     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+#     Major: '1'
+#     Minor: '0'
+#     Patch: '0'
+#     codeSign: ${{ eq(variables['System.definitionId'], '1356') }}
+#     MRTSourcesDirectory: $(Build.SourcesDirectory)\dev\MRTCore
 
-#- task: VSBuild@1
-#  displayName: 'build x64'
-#  inputs:
-#    platform: 'x64'
-#    solution: |
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
-#      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
-#    configuration: '$(buildConfiguration)'
-#    msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+#   steps:
+#   - task: DownloadBuildArtifacts@0
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'Download: Signed Binaries AnyCPU'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'signedbinaries_anycpu'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
 
-#  - task: PkgESSerializeForPostBuild@10
-#    displayName: 'PkgES Post Build Serialization'
-#    continueOnError: true
+#   - task: DownloadBuildArtifacts@0
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'Download: Signed Binaries x86'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'signedbinaries_x86'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
 
-#  - task: PkgESLateTasks@10
-#    displayName: 'PkgES Finalize and Cleanup'
-#    inputs:
-#      enablePostBuild: false
-#      dfsReleaseInPb: true
+#   - task: DownloadBuildArtifacts@0
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'Download: Signed Binaries x64'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'signedbinaries_x64'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
+
+#   - task: DownloadBuildArtifacts@0
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'Download: Signed Binaries ARM64'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'signedbinaries_ARM64'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
+
+# # START of copying files into their final package location.
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy winmd'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
+#       Contents: |
+#         signed\Microsoft.ApplicationModel.Resources.winmd
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy .net 5 projection DLL and PDB'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
+#       Contents: |
+#         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
+#         signed\net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy .net 2 projection DLL and PDB'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_anycpu\lib\anycpu'
+#       Contents: |
+#         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
+#         signed\netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy x86'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x86\lib\x86'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         signed\mrm.dll
+#         signed\Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy x64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         signed\mrm.dll
+#         signed\Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy ARM64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         signed\mrm.dll
+#         signed\Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy import lib x86'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x86\lib\x86'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy import lib x64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'copy import lib ARM64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+#       flattenFolders: true
+
+#   - task: DownloadBuildArtifacts@0
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'Download: Unsigned Binaries'
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'binaries_raw'
+#       downloadPath: '$(Build.ArtifactStagingDirectory)\raw'
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned winmd'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
+#       Contents: |
+#         Microsoft.ApplicationModel.Resources.winmd
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned .net 5 projection DLL and PDB'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
+#       Contents: |
+#         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
+#         net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned .net 2 projection DLL and PDB'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\anycpu'
+#       Contents: |
+#         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
+#         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned x86'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x86'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         mrm.dll
+#         Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned x64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         mrm.dll
+#         Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned ARM64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
+#       Contents: |
+#         mrm.pdb
+#         Microsoft.ApplicationModel.Resources.pdb
+#         mrm.dll
+#         Microsoft.ApplicationModel.Resources.dll
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned import lib x86'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x86'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned import lib x64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     displayName: 'copy unsigned import lib ARM64'
+#     inputs:
+#       SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
+#       Contents: |
+#         mrm.lib
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+#       flattenFolders: true
+
+#   - task: CopyFiles@2
+#     displayName: 'copy packaging files'
+#     inputs:
+#       SourceFolder: '$(MRTSourcesDirectory)\packaging'
+#       Contents: |
+#         Microsoft.ApplicationModel.Resources.PriGen.targets
+#         Microsoft.ApplicationModel.Resources.References.targets
+#         Microsoft.ApplicationModel.Resources.targets
+#         native\Microsoft.ApplicationModel.Resources.C.props
+#         native\Microsoft.ApplicationModel.Resources.props
+#         native\Microsoft.ApplicationModel.Resources.targets
+#         native\Microsoft.ApplicationModel.Resources.WinRt.props
+#         README.md
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\build'
+#       flattenFolders: false
+
+#   - task: CopyFiles@2
+#     displayName: 'copy header'
+#     inputs:
+#       SourceFolder: '$(MRTSourcesDirectory)\mrt\core\src'
+#       Contents: |
+#         mrm.h
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\include'
+
+#   - task: CopyFiles@2
+#     displayName: 'copy license'
+#     inputs:
+#       SourceFolder: '$(MRTSourcesDirectory)'
+#       Contents: |
+#         LICENSE.txt
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt'
+
+# # END of copying files into their final package location.
+  
+#   # NuGetCommand@2
+#   - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+#     inputs:
+#       command: 'pack'
+#       packagesToPack: '$(MRTSourcesDirectory)\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
+#       versioningScheme: 'byPrereleaseNumber'
+#       majorVersion: '$(Major)'
+#       minorVersion: '$(Minor)'
+#       patchVersion: '$(Patch)'
+#       basePath: '$(Build.ArtifactStagingDirectory)\mrt'
+#       packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
+  
+# #  - task: PkgESCodeSign@10
+# #    condition: and(succeeded(), eq(variables.codeSign, true))
+# #    env:
+# #      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+# #    inputs:
+# #      signConfigXml: 'SignConfig-nuget.xml'
+# #      inPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
+# #      outPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
+  
+#   - task: PublishBuildArtifacts@1
+#     condition: and(succeeded(), eq(variables.codeSign, false))
+#     inputs:
+#       PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
+#       ArtifactName: 'drop'
+
+#   - task: PublishBuildArtifacts@1
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     inputs:
+#       PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget\signed'
+#       ArtifactName: 'drop'
+
+#   # NuGetCommand@2
+#   - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+#     condition: and(succeeded(), eq(variables.codeSign, true))
+#     displayName: 'publish to MRTCore feed'
+#     inputs:
+#       command: 'push'
+#       packagesToPush: '$(Build.ArtifactStagingDirectory)/nuget/signed/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+#       nuGetFeedType: 'internal'
+#       publishVstsFeed: '2771a91e-5705-4d88-a3e9-70623b166f8d/659bea81-0d99-4dc0-b32f-200cd635e5ad'
+
+# # TODO: get the test app to build using the NuGet package generated earlier in the pipeline.
+# #- task: NuGetCommand@2
+# #  displayName: 'NuGet restore of test apps'
+# #  env:
+# #    # The RuntimeIdentifier property in a .csproj is constructed using win-$(Platform). AnyCPU is the default platform, but
+# #    # "win-AnyCPU" is an invalid RuntimeIdentifier. Just use the platform x64 instead! It doesn't matter whether x86 or x64 is used.
+# #    NUGET_RESTORE_MSBUILD_ARGS: /p:Platform=x64
+# #  inputs:
+# #    command: 'restore'
+# #    restoreSolution: |
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
+# #    feedsToUse: 'select'
+# #    includeNuGetOrg: false
+# #    vstsFeed: '$(Build.ArtifactStagingDirectory)\nuget'
+
+# # TODO: use the $(solution) variable instead. That'll build all solution files in the repo. Currently, this isn't being done because getting
+# # $(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln to build in the pipeline is being deferred.
+
+# #- task: VSBuild@1
+# #  displayName: 'build x86'
+# #  inputs:
+# #    platform: 'x86'
+# #    solution: |
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
+# #    configuration: '$(buildConfiguration)'
+# #    msbuildArgs: '/p:AppxBundlePlatforms="x86" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+
+# #- task: VSBuild@1
+# #  displayName: 'build x64'
+# #  inputs:
+# #    platform: 'x64'
+# #    solution: |
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app.sln'
+# #      '$(Build.SourcesDirectory)\tools\TestApps\winui_desktop_packaged_app\winui_desktop_packaged_app_cpp.sln'
+# #    configuration: '$(buildConfiguration)'
+# #    msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+
+# #  - task: PkgESSerializeForPostBuild@10
+# #    displayName: 'PkgES Post Build Serialization'
+# #    continueOnError: true
+
+# #  - task: PkgESLateTasks@10
+# #    displayName: 'PkgES Finalize and Cleanup'
+# #    inputs:
+# #      enablePostBuild: false
+# #      dfsReleaseInPb: true

@@ -49,7 +49,7 @@ jobs:
 # MRTCore build pipeline
 - template: ..\dev\MRTCore\azure-pipelines.yml
   parameters:
-    buildJobName: 'BuildMRTCore'
+    # buildJobName: 'BuildMRTCore'
     dependsOn: [] # Runs in parallel to the Build job since it does not depend on it.
 
 # Create Nuget Package
