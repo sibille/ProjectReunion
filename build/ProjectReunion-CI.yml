@@ -58,7 +58,7 @@ jobs:
     jobName: CreateNugetPackage
     dependsOn:
      - Build
-     - BuildMRTCore
+     - BuildMRT
     prereleaseVersionTag: ci
 
 # Build solution that depends on nuget package
