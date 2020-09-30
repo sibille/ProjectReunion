@@ -46,11 +46,19 @@ jobs:
 #    testSuite: 'DevTestSuite'
 #    rerunPassesRequiredToAvoidFailure: $(rerunPassesRequiredToAvoidFailure)
 
+# MRTCore build pipeline
+- template: ..\dev\MRTCore\azure-pipelines.yml
+  parameters:
+    buildJobName: 'BuildMRTCore'
+    dependsOn: [] # Runs in parallel to the Build job since it does not depend on it.
+
 # Create Nuget Package
 - template: AzurePipelinesTemplates\ProjectReunion-CreateNugetPackage-Job.yml
   parameters:
     jobName: CreateNugetPackage
-    dependsOn: Build
+    dependsOn:
+     - Build
+     - BuildMRTCore
     prereleaseVersionTag: ci
 
 # Build solution that depends on nuget package
@@ -83,9 +91,3 @@ jobs:
 #    - RunFrameworkPkgTestsInHelix
 #    rerunPassesRequiredToAvoidFailure: $(rerunPassesRequiredToAvoidFailure)
 #    minimumExpectedTestsExecutedCount: $(minimumExpectedTestsExecutedCount)
-
-# MRTCore build pipeline
-- template: ..\dev\MRTCore\azure-pipelines.yml
-  parameters:
-    buildJobName: 'BuildMRTCore'
-    dependsOn: CreateNugetPackage
