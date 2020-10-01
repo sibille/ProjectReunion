@@ -86,58 +86,58 @@ jobs:
       PathtoPublish: $(Build.SourcesDirectory)/mrtcore.binlog
       artifactName: drop
 
-  - task: VSBuild@1
-    displayName: 'build MrtCore x64'
-    inputs:
-      platform: 'x64'
-      buildPlatform: 'x64'
-      solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+  # - task: VSBuild@1
+  #   displayName: 'build MrtCore x64'
+  #   inputs:
+  #     platform: 'x64'
+  #     buildPlatform: 'x64'
+  #     solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
+  #     configuration: '$(buildConfiguration)'
+  #     msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
 
-  - task: VSBuild@1
-    displayName: 'build MrtCore ARM64'
-    inputs:
-      platform: 'ARM64'
-      buildPlatform: 'x64'
-      solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="ARM64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+  # - task: VSBuild@1
+  #   displayName: 'build MrtCore ARM64'
+  #   inputs:
+  #     platform: 'ARM64'
+  #     buildPlatform: 'x64'
+  #     solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
+  #     configuration: '$(buildConfiguration)'
+  #     msbuildArgs: '/p:AppxBundlePlatforms="ARM64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
   
-  - task: VSTest@2
-    displayName: 'test x86'
-    inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\*test*.dll
-        !**\*TestAdapter.dll
-        !**\TE.*.dll
-        !**\obj\**
-      searchFolder: '$(MRTBinariesDirectory)\Release\x86'
-      testRunTitle: 'test x86'
-      platform: 'x86'
-      configuration: 'Release'
+  # - task: VSTest@2
+  #   displayName: 'test x86'
+  #   inputs:
+  #     testSelector: 'testAssemblies'
+  #     testAssemblyVer2: |
+  #       **\*test*.dll
+  #       !**\*TestAdapter.dll
+  #       !**\TE.*.dll
+  #       !**\obj\**
+  #     searchFolder: '$(MRTBinariesDirectory)\Release\x86'
+  #     testRunTitle: 'test x86'
+  #     platform: 'x86'
+  #     configuration: 'Release'
   
-  - task: VSTest@2
-    displayName: 'test x64'
-    inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\*test*.dll
-        !**\*TestAdapter.dll
-        !**\TE.*.dll
-        !**\obj\**
-      searchFolder: '$(MRTBinariesDirectory)\Release\x64'
-      testRunTitle: 'test x64'
-      platform: 'x64'
-      configuration: 'Release'
+  # - task: VSTest@2
+  #   displayName: 'test x64'
+  #   inputs:
+  #     testSelector: 'testAssemblies'
+  #     testAssemblyVer2: |
+  #       **\*test*.dll
+  #       !**\*TestAdapter.dll
+  #       !**\TE.*.dll
+  #       !**\obj\**
+  #     searchFolder: '$(MRTBinariesDirectory)\Release\x64'
+  #     testRunTitle: 'test x64'
+  #     platform: 'x64'
+  #     configuration: 'Release'
 
-  - task: ComponentGovernanceComponentDetection@0
-    inputs:
-      scanType: 'Register'
-      verbosity: 'Verbose'
-      alertWarningLevel: 'Medium'
-      failOnAlert: true
+  # - task: ComponentGovernanceComponentDetection@0
+  #   inputs:
+  #     scanType: 'Register'
+  #     verbosity: 'Verbose'
+  #     alertWarningLevel: 'Medium'
+  #     failOnAlert: true
 
   - task: CopyFiles@2
     displayName: 'copy x86 for signing'
@@ -173,31 +173,31 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\anycpu\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
   
-  - task: CopyFiles@2
-    displayName: 'copy x64 for signing'
-    inputs:
-      SourceFolder: '$(MRTBinariesDirectory)\Release\x64'
-      Contents: |
-        mrm\mrm.dll
-        mrm\mrm.lib
-        mrm\mrm.pdb
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\x64\Microsoft.ApplicationModel.Resources'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   displayName: 'copy x64 for signing'
+  #   inputs:
+  #     SourceFolder: '$(MRTBinariesDirectory)\Release\x64'
+  #     Contents: |
+  #       mrm\mrm.dll
+  #       mrm\mrm.lib
+  #       mrm\mrm.pdb
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\x64\Microsoft.ApplicationModel.Resources'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    displayName: 'copy ARM64 for signing'
-    inputs:
-      SourceFolder: '$(MRTBinariesDirectory)\Release\ARM64'
-      Contents: |
-        mrm\mrm.dll
-        mrm\mrm.lib
-        mrm\mrm.pdb
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\ARM64\Microsoft.ApplicationModel.Resources'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   displayName: 'copy ARM64 for signing'
+  #   inputs:
+  #     SourceFolder: '$(MRTBinariesDirectory)\Release\ARM64'
+  #     Contents: |
+  #       mrm\mrm.dll
+  #       mrm\mrm.lib
+  #       mrm\mrm.pdb
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\ARM64\Microsoft.ApplicationModel.Resources'
+  #     flattenFolders: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: Binaries'
