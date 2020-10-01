@@ -86,58 +86,58 @@ jobs:
       PathtoPublish: $(Build.SourcesDirectory)/mrtcore.binlog
       artifactName: drop
 
-  - task: VSBuild@1
-    displayName: 'build MrtCore x64'
-    inputs:
-      platform: 'x64'
-      buildPlatform: 'x64'
-      solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+  # - task: VSBuild@1
+  #   displayName: 'build MrtCore x64'
+  #   inputs:
+  #     platform: 'x64'
+  #     buildPlatform: 'x64'
+  #     solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
+  #     configuration: '$(buildConfiguration)'
+  #     msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
 
-  - task: VSBuild@1
-    displayName: 'build MrtCore ARM64'
-    inputs:
-      platform: 'ARM64'
-      buildPlatform: 'x64'
-      solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="ARM64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+  # - task: VSBuild@1
+  #   displayName: 'build MrtCore ARM64'
+  #   inputs:
+  #     platform: 'ARM64'
+  #     buildPlatform: 'x64'
+  #     solution: '$(MRTSourcesDirectory)\mrt\MrtCore.sln'
+  #     configuration: '$(buildConfiguration)'
+  #     msbuildArgs: '/p:AppxBundlePlatforms="ARM64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
   
-  - task: VSTest@2
-    displayName: 'test x86'
-    inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\*test*.dll
-        !**\*TestAdapter.dll
-        !**\TE.*.dll
-        !**\obj\**
-      searchFolder: '$(MRTBinariesDirectory)\Release\x86'
-      testRunTitle: 'test x86'
-      platform: 'x86'
-      configuration: 'Release'
+  # - task: VSTest@2
+  #   displayName: 'test x86'
+  #   inputs:
+  #     testSelector: 'testAssemblies'
+  #     testAssemblyVer2: |
+  #       **\*test*.dll
+  #       !**\*TestAdapter.dll
+  #       !**\TE.*.dll
+  #       !**\obj\**
+  #     searchFolder: '$(MRTBinariesDirectory)\Release\x86'
+  #     testRunTitle: 'test x86'
+  #     platform: 'x86'
+  #     configuration: 'Release'
   
-  - task: VSTest@2
-    displayName: 'test x64'
-    inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\*test*.dll
-        !**\*TestAdapter.dll
-        !**\TE.*.dll
-        !**\obj\**
-      searchFolder: '$(MRTBinariesDirectory)\Release\x64'
-      testRunTitle: 'test x64'
-      platform: 'x64'
-      configuration: 'Release'
+  # - task: VSTest@2
+  #   displayName: 'test x64'
+  #   inputs:
+  #     testSelector: 'testAssemblies'
+  #     testAssemblyVer2: |
+  #       **\*test*.dll
+  #       !**\*TestAdapter.dll
+  #       !**\TE.*.dll
+  #       !**\obj\**
+  #     searchFolder: '$(MRTBinariesDirectory)\Release\x64'
+  #     testRunTitle: 'test x64'
+  #     platform: 'x64'
+  #     configuration: 'Release'
 
-  - task: ComponentGovernanceComponentDetection@0
-    inputs:
-      scanType: 'Register'
-      verbosity: 'Verbose'
-      alertWarningLevel: 'Medium'
-      failOnAlert: true
+  # - task: ComponentGovernanceComponentDetection@0
+  #   inputs:
+  #     scanType: 'Register'
+  #     verbosity: 'Verbose'
+  #     alertWarningLevel: 'Medium'
+  #     failOnAlert: true
 
   - task: CopyFiles@2
     displayName: 'copy x86 for signing'
@@ -173,31 +173,31 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\anycpu'
       flattenFolders: true
   
-  - task: CopyFiles@2
-    displayName: 'copy x64 for signing'
-    inputs:
-      SourceFolder: '$(MRTBinariesDirectory)\Release\x64'
-      Contents: |
-        mrm\mrm.dll
-        mrm\mrm.lib
-        mrm\mrm.pdb
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\x64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   displayName: 'copy x64 for signing'
+  #   inputs:
+  #     SourceFolder: '$(MRTBinariesDirectory)\Release\x64'
+  #     Contents: |
+  #       mrm\mrm.dll
+  #       mrm\mrm.lib
+  #       mrm\mrm.pdb
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\x64'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    displayName: 'copy ARM64 for signing'
-    inputs:
-      SourceFolder: '$(MRTBinariesDirectory)\Release\ARM64'
-      Contents: |
-        mrm\mrm.dll
-        mrm\mrm.lib
-        mrm\mrm.pdb
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
-        Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\ARM64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   displayName: 'copy ARM64 for signing'
+  #   inputs:
+  #     SourceFolder: '$(MRTBinariesDirectory)\Release\ARM64'
+  #     Contents: |
+  #       mrm\mrm.dll
+  #       mrm\mrm.lib
+  #       mrm\mrm.pdb
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
+  #       Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\lib\ARM64'
+  #     flattenFolders: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: Binaries'
@@ -358,31 +358,31 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
       flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        signed\mrm.dll
-        signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, true))
+  #   displayName: 'copy x64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
+  #     Contents: |
+  #       mrm.pdb
+  #       Microsoft.ApplicationModel.Resources.pdb
+  #       signed\mrm.dll
+  #       signed\Microsoft.ApplicationModel.Resources.dll
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        signed\mrm.dll
-        signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, true))
+  #   displayName: 'copy ARM64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
+  #     Contents: |
+  #       mrm.pdb
+  #       Microsoft.ApplicationModel.Resources.pdb
+  #       signed\mrm.dll
+  #       signed\Microsoft.ApplicationModel.Resources.dll
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+  #     flattenFolders: true
 
   - task: CopyFiles@2
     condition: and(succeeded(), eq(variables.codeSign, true))
@@ -394,25 +394,25 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
       flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy import lib x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, true))
+  #   displayName: 'copy import lib x64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_x64\lib\x64'
+  #     Contents: |
+  #       mrm.lib
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'copy import lib ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, true))
+  #   displayName: 'copy import lib ARM64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\signedbinaries_ARM64\lib\ARM64'
+  #     Contents: |
+  #       mrm.lib
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+  #     flattenFolders: true
 
   - task: DownloadBuildArtifacts@0
     condition: and(succeeded(), eq(variables.codeSign, false))
@@ -504,25 +504,25 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
       flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned import lib x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, false))
+  #   displayName: 'copy unsigned import lib x64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\x64'
+  #     Contents: |
+  #       mrm.lib
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned import lib ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
-      Contents: |
-        mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, false))
+  #   displayName: 'copy unsigned import lib ARM64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\raw\binaries_raw\lib\ARM64'
+  #     Contents: |
+  #       mrm.lib
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+  #     flattenFolders: true
 
   - task: CopyFiles@2
     displayName: 'copy packaging files'
@@ -592,14 +592,14 @@ jobs:
       ArtifactName: 'drop'
 
   # NuGetCommand@2
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    condition: and(succeeded(), eq(variables.codeSign, true))
-    displayName: 'publish to MRTCore feed'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/nuget/signed/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-      nuGetFeedType: 'internal'
-      publishVstsFeed: '2771a91e-5705-4d88-a3e9-70623b166f8d/659bea81-0d99-4dc0-b32f-200cd635e5ad'
+  # - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+  #   condition: and(succeeded(), eq(variables.codeSign, true))
+  #   displayName: 'publish to MRTCore feed'
+  #   inputs:
+  #     command: 'push'
+  #     packagesToPush: '$(Build.ArtifactStagingDirectory)/nuget/signed/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+  #     nuGetFeedType: 'internal'
+  #     publishVstsFeed: '2771a91e-5705-4d88-a3e9-70623b166f8d/659bea81-0d99-4dc0-b32f-200cd635e5ad'
 
 # TODO: get the test app to build using the NuGet package generated earlier in the pipeline.
 #- task: NuGetCommand@2
