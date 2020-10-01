@@ -320,7 +320,7 @@ jobs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\signedbinaries_anycpu\lib\anycpu'
       Contents: |
         signed\Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\uap10.0\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -331,7 +331,7 @@ jobs:
       Contents: |
         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         signed\net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\net5.0-windows\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -342,7 +342,7 @@ jobs:
       Contents: |
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         signed\netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\netstandard2.0\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -355,7 +355,7 @@ jobs:
         Microsoft.ApplicationModel.Resources.pdb
         signed\mrm.dll
         signed\Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-x86\native'
       flattenFolders: true
 
   # - task: CopyFiles@2
@@ -368,7 +368,7 @@ jobs:
   #       Microsoft.ApplicationModel.Resources.pdb
   #       signed\mrm.dll
   #       signed\Microsoft.ApplicationModel.Resources.dll
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-x64\native'
   #     flattenFolders: true
 
   # - task: CopyFiles@2
@@ -381,7 +381,7 @@ jobs:
   #       Microsoft.ApplicationModel.Resources.pdb
   #       signed\mrm.dll
   #       signed\Microsoft.ApplicationModel.Resources.dll
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-arm64\native'
   #     flattenFolders: true
 
   - task: CopyFiles@2
@@ -391,7 +391,7 @@ jobs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\signedbinaries_x86\lib\x86'
       Contents: |
         mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-x86'
       flattenFolders: true
 
   # - task: CopyFiles@2
@@ -401,7 +401,7 @@ jobs:
   #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\signedbinaries_x64\lib\x64'
   #     Contents: |
   #       mrm.lib
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-x64'
   #     flattenFolders: true
 
   # - task: CopyFiles@2
@@ -411,7 +411,7 @@ jobs:
   #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\signedbinaries_ARM64\lib\ARM64'
   #     Contents: |
   #       mrm.lib
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-arm64'
   #     flattenFolders: true
 
   - task: DownloadBuildArtifacts@0
@@ -430,7 +430,7 @@ jobs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\unsignedbinaries\lib\anycpu'
       Contents: |
         Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\uap10.0\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\uap10.0\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -441,7 +441,7 @@ jobs:
       Contents: |
         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         net5.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\net5.0-windows\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\net5.0-windows\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -452,7 +452,7 @@ jobs:
       Contents: |
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\netstandard2.0\'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\netstandard2.0\'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -465,7 +465,7 @@ jobs:
         Microsoft.ApplicationModel.Resources.pdb
         mrm.dll
         Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-x86\native'
       flattenFolders: true
 
   # - task: CopyFiles@2
@@ -478,7 +478,7 @@ jobs:
   #       Microsoft.ApplicationModel.Resources.pdb
   #       mrm.dll
   #       Microsoft.ApplicationModel.Resources.dll
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-x64\native'
   #     flattenFolders: true
 
   # - task: CopyFiles@2
@@ -491,7 +491,7 @@ jobs:
   #       Microsoft.ApplicationModel.Resources.pdb
   #       mrm.dll
   #       Microsoft.ApplicationModel.Resources.dll
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\runtimes\win10-arm64\native'
   #     flattenFolders: true
 
   - task: CopyFiles@2
@@ -501,7 +501,7 @@ jobs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\unsignedbinaries\lib\x86'
       Contents: |
         mrm.lib
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x86'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-x86'
       flattenFolders: true
 
   # - task: CopyFiles@2
@@ -511,7 +511,7 @@ jobs:
   #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\unsignedbinaries\lib\x64'
   #     Contents: |
   #       mrm.lib
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-x64'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-x64'
   #     flattenFolders: true
 
   # - task: CopyFiles@2
@@ -521,7 +521,7 @@ jobs:
   #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt_raw\unsignedbinaries\lib\ARM64'
   #     Contents: |
   #       mrm.lib
-  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\lib\win10-arm64'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\lib\win10-arm64'
   #     flattenFolders: true
 
   - task: CopyFiles@2
@@ -537,16 +537,16 @@ jobs:
         native\Microsoft.ApplicationModel.Resources.targets
         native\Microsoft.ApplicationModel.Resources.WinRt.props
         README.md
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\build'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\build'
       flattenFolders: false
 
   - task: CopyFiles@2
     displayName: 'copy header'
     inputs:
-      SourceFolder: '$(MRTSourcesDirectory)\mrt\core\src'
+      SourceFolder: '$(MRTSourcesDirectory)\drop\core\src'
       Contents: |
         mrm.h
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\include'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\include'
 
   - task: CopyFiles@2
     displayName: 'copy license'
@@ -554,21 +554,21 @@ jobs:
       SourceFolder: '$(MRTSourcesDirectory)'
       Contents: |
         LICENSE.txt
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\drop'
 
 # END of copying files into their final package location.
   
   # NuGetCommand@2
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    inputs:
-      command: 'pack'
-      packagesToPack: '$(MRTSourcesDirectory)\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
-      versioningScheme: 'byPrereleaseNumber'
-      majorVersion: '$(Major)'
-      minorVersion: '$(Minor)'
-      patchVersion: '$(Patch)'
-      basePath: '$(Build.ArtifactStagingDirectory)\mrt'
-      packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
+  # - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+  #   inputs:
+  #     command: 'pack'
+  #     packagesToPack: '$(MRTSourcesDirectory)\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
+  #     versioningScheme: 'byPrereleaseNumber'
+  #     majorVersion: '$(Major)'
+  #     minorVersion: '$(Minor)'
+  #     patchVersion: '$(Patch)'
+  #     basePath: '$(Build.ArtifactStagingDirectory)\drop'
+  #     packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
 
 #  - task: PkgESCodeSign@10
 #    condition: and(succeeded(), eq(variables.codeSign, true))
