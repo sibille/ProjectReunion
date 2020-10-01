@@ -149,7 +149,7 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll        
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\x86'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\x86\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -161,7 +161,7 @@ jobs:
         net5.0\Microsoft.ApplicationModel.Resources.Projection.pdb
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.dll
         netstandard2.0\Microsoft.ApplicationModel.Resources.Projection.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\anycpu'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\anycpu\Microsoft.ApplicationModel.Resources'
       flattenFolders: false
 
   - task: CopyFiles@2
@@ -170,7 +170,7 @@ jobs:
       SourceFolder: '$(MRTBinariesDirectory)\Release\AnyCPU\Microsoft.ApplicationModel.Resources.Projection'
       Contents: |
         Microsoft.ApplicationModel.Resources.winmd
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\anycpu'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\anycpu\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
   
   - task: CopyFiles@2
@@ -183,7 +183,7 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\x64'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\x64\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
 
   - task: CopyFiles@2
@@ -196,7 +196,7 @@ jobs:
         mrm\mrm.pdb
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll
         Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pdb
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\Microsoft.ApplicationModel.Resources\ARM64'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\ARM64\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
 
   - task: PublishBuildArtifacts@1
