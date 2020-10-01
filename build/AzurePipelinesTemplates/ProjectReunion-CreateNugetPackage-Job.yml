@@ -24,6 +24,7 @@ jobs:
   pool:
     vmImage: 'windows-2019'
 
+
   steps:
   # debugging - remove or comment out before completing PR      
   - script: |
@@ -31,14 +32,12 @@ jobs:
       dir /s $(Build.SourcesDirectory)
       echo Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)
       dir /s $(Build.ArtifactStagingDirectory)
-      echo MRTSourcesDirectory = $(MRTSourcesDirectory)
-      dir /s $(MRTSourcesDirectory)
 
   # NuGetCommand@2
   - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
     inputs:
       command: 'pack'
-      packagesToPack: '$(MRTSourcesDirectory)\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
+      packagesToPack: '$(SourcesDirectory)\dev\MRTCore\mrt\nuget\Microsoft.ApplicationModel.Resources.nuspec'
       versioningScheme: 'byPrereleaseNumber'
       majorVersion: '$(Major)'
       minorVersion: '$(Minor)'
