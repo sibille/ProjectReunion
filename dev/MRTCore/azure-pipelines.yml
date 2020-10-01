@@ -468,31 +468,31 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x86\native'
       flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned x64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt\raw\binaries_raw\lib\x64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        mrm.dll
-        Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, false))
+  #   displayName: 'copy unsigned x64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt\raw\binaries_raw\lib\x64'
+  #     Contents: |
+  #       mrm.pdb
+  #       Microsoft.ApplicationModel.Resources.pdb
+  #       mrm.dll
+  #       Microsoft.ApplicationModel.Resources.dll
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-x64\native'
+  #     flattenFolders: true
 
-  - task: CopyFiles@2
-    condition: and(succeeded(), eq(variables.codeSign, false))
-    displayName: 'copy unsigned ARM64'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt\raw\binaries_raw\lib\ARM64'
-      Contents: |
-        mrm.pdb
-        Microsoft.ApplicationModel.Resources.pdb
-        mrm.dll
-        Microsoft.ApplicationModel.Resources.dll
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   condition: and(succeeded(), eq(variables.codeSign, false))
+  #   displayName: 'copy unsigned ARM64'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)\mrt\raw\binaries_raw\lib\ARM64'
+  #     Contents: |
+  #       mrm.pdb
+  #       Microsoft.ApplicationModel.Resources.pdb
+  #       mrm.dll
+  #       Microsoft.ApplicationModel.Resources.dll
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)\mrt\runtimes\win10-arm64\native'
+  #     flattenFolders: true
 
   - task: CopyFiles@2
     condition: and(succeeded(), eq(variables.codeSign, false))
