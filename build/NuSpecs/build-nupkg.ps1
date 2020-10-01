@@ -117,12 +117,21 @@ Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm\Microsoft.ProjectR
 Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm64\Microsoft.ProjectReunion\Microsoft.ProjectReunion.dll "$runtimesDir\win10-arm64\native"
 Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm64\Microsoft.ProjectReunion\Microsoft.ProjectReunion.pri "$runtimesDir\win10-arm64\native"
 
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\x86\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll "$runtimesDir\win10-x86\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\x86\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pri "$runtimesDir\win10-x86\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\x64\Microsoft.ApplicationModel.Resources\Microsoft.ProjectReunion.dll "$runtimesDir\win10-x64\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\x64\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pri "$runtimesDir\win10-x64\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll "$runtimesDir\win10-arm\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pri "$runtimesDir\win10-arm\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm64\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.dll "$runtimesDir\win10-arm64\native"
+# Copy-IntoNewDirectory -IfExists $BuildOutput\$BuildFlavor\arm64\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.pri "$runtimesDir\win10-arm64\native"
+
 #
 # Build Project Reunion package (with actual contents, i.e. not metapackage)
 #
 
 $nugetExe = "$scriptDirectory\..\..\tools\NugetWrapper.cmd"
-$NugetCmdLine = "$nugetExe pack ProjectReunion.nuspec $NugetArgs -version $version"
+$NugetCmdLine = "$nugetExe pack ..\dev\MRTCore\mrt\NuGet\Microsoft.ApplicationModel.Resources.nuspec $NugetArgs -version $version"
 Write-Host 'Building Project Reunion package'
 Write-Host $NugetCmdLine
 Invoke-Expression $NugetCmdLine

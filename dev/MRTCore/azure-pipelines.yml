@@ -199,11 +199,11 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\raw\Release\ARM64\Microsoft.ApplicationModel.Resources'
       flattenFolders: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: Binaries'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\raw'
-      ArtifactName: 'drop'
+  # - task: PublishBuildArtifacts@1
+  #   displayName: 'Publish Artifact: Binaries'
+  #   inputs:
+  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)\raw'
+  #     ArtifactName: 'drop'
 
     
 # UNDONE by getrou.  We want to include it in our own ProjectReunion nuget package.
