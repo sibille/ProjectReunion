@@ -46,12 +46,12 @@ jobs:
       packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
 
 
-  - task: PublishNuget@1
+  - task: PublishBuildArtifacts@1
     displayName: 'Publish Nuget'
     condition: succeededOrFailed()
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)\nuget
-      artifactName: drop
+      artifactName: nuget
 
 
   # steps:
