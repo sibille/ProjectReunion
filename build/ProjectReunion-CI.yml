@@ -90,8 +90,7 @@ jobs:
     buildJobName: 'BuildMRTCore'
 
 - job: CreateNuget
-  dependsOn: PublishMRT
-  condition: succeededOrFailed()
+  condition: succeeded()
   variables:
     solution: '**/*.sln'
     buildPlatform: 'Any CPU'
