@@ -46,12 +46,12 @@ jobs:
 #    testSuite: 'DevTestSuite'
 #    rerunPassesRequiredToAvoidFailure: $(rerunPassesRequiredToAvoidFailure)
 
-# Create Nuget Package
-- template: AzurePipelinesTemplates\ProjectReunion-CreateNugetPackage-Job.yml
-  parameters:
-    jobName: CreateNugetPackage
-    dependsOn: Build
-    prereleaseVersionTag: ci
+# # Create Nuget Package
+# - template: AzurePipelinesTemplates\ProjectReunion-CreateNugetPackage-Job.yml
+#   parameters:
+#     jobName: CreateNugetPackage
+#     dependsOn: Build
+#     prereleaseVersionTag: ci
 
 # Build solution that depends on nuget package
 #- template: AzurePipelinesTemplates\ProjectReunion-NugetReleaseTest-Job.yml
