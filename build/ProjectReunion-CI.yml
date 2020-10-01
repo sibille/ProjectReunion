@@ -92,8 +92,6 @@ jobs:
 
 - job: Publish Nuget
   # NuGetCommand@2
-  parameters:
-    dependsOn: PublishMRT
   #    name: 'RunTestsInHelix'
   #    dependsOn: Build
   steps:
