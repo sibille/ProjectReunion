@@ -27,11 +27,11 @@ jobs:
   steps:
   # debugging - remove or comment out before completing PR      
   - script: |
-      echo Build.SourcesDirectory = '${{ Build.SourcesDirectory }}'
+      echo Build.SourcesDirectory = $(Build.SourcesDirectory)
       dir /s $(Build.SourcesDirectory)
-      echo Build.ArtifactStagingDirectory = '${{ Build.ArtifactStagingDirectory }}'
+      echo Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)
       dir /s $(Build.ArtifactStagingDirectory)
-      echo MRTSourcesDirectory = '${{ MRTSourcesDirectory }}'
+      echo MRTSourcesDirectory = $(MRTSourcesDirectory)
       dir /s $(MRTSourcesDirectory)
 
   # NuGetCommand@2
