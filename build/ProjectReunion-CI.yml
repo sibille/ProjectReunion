@@ -90,7 +90,7 @@ jobs:
     buildJobName: 'BuildMRTCore'
     dependsOn: CreateNugetPackage
 
-- job: Publish Nuget
+- job: PublishNuget
   # NuGetCommand@2
   #    name: 'RunTestsInHelix'
   #    dependsOn: Build
