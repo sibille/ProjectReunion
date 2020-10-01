@@ -46,6 +46,14 @@ jobs:
       packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
 
 
+  - task: PublishNuget@1
+    displayName: 'Publish Nuget'
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)\nuget
+      artifactName: drop
+
+
   # steps:
   # - ${{if parameters.signConfig }}:
   #   - task: PkgESSetupBuild@10
