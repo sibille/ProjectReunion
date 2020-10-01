@@ -21,7 +21,7 @@
 <!-- UNDONE - xmal vcxproj runs mdmerge and places a new winmd into sdk node, we are skipping this for now -->
 <!-- <file target="lib\uap10.0" src="$BUILDOUTPUT$\$BUILDFLAVOR$\$BUILDARCH$\Microsoft.ProjectReunion\sdk\Microsoft.ProjectReunion.winmd"/> -->
     <file target="lib\uap10.0" src="$BUILDOUTPUT$\$BUILDFLAVOR$\$BUILDARCH$\Microsoft.ProjectReunion\Microsoft.ProjectReunion.winmd"/>
-    <file target="lib\uap10.0" src="$BUILDOUTPUT$\$BUILDFLAVOR$\$BUILDARCH$\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.winmd"/>
+    <file target="lib\uap10.0" src="$BUILDOUTPUT$\$BUILDFLAVOR$\AnyCpu\Microsoft.ApplicationModel.Resources\Microsoft.ApplicationModel.Resources.winmd"/>
     <file target="lib\uap10.0" src="Intellisense\Microsoft.ProjectReunion.xml"/>
 
     <file target="runtimes" src="$RUNTIMESDIR$\**\*.*"/>
