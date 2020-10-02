@@ -130,8 +130,8 @@ jobs:
       basePath: '$(Build.ArtifactStagingDirectory)\drop'
       packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
   - script: |
-      echo Dumping Nuget Directory Contents
-      dir /s $(Build.ArtifactStagingDirectory)\nuget
+      echo Dumping Entire Artifact Directory Contents
+      dir /s $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
