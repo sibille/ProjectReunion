@@ -579,17 +579,17 @@ jobs:
 #      inPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
 #      outPathRoot: '$(BUILD.ArtifactStagingDirectory)\nuget'
   
-  # - task: PublishBuildArtifacts@1
-  #   condition: and(succeeded(), eq(variables.codeSign, false))
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
-  #     ArtifactName: 'drop'
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), eq(variables.codeSign, false))
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\drop'
+      ArtifactName: 'drop'
 
-  # - task: PublishBuildArtifacts@1
-  #   condition: and(succeeded(), eq(variables.codeSign, true))
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget\signed'
-  #     ArtifactName: 'drop'
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), eq(variables.codeSign, true))
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\drop'
+      ArtifactName: 'drop'
 
   - task: PublishBuildArtifacts@1
     inputs:
