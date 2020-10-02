@@ -543,7 +543,7 @@ jobs:
   - task: CopyFiles@2
     displayName: 'copy header'
     inputs:
-      SourceFolder: '$(MRTSourcesDirectory)\drop\core\src'
+      SourceFolder: '$(MRTSourcesDirectory)\mrt\core\src'
       Contents: |
         mrm.h
       TargetFolder: '$(Build.ArtifactStagingDirectory)\drop\include'
