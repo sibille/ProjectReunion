@@ -111,7 +111,7 @@ jobs:
       artifactName: 'drop'
       downloadPath: '$(Build.ArtifactStagingDirectory)'
   - script: |
-      dir /s $(Build.ArtifactStagingDirectory)\drop
+      dir /s $(Build.ArtifactStagingDirectory)/drop
   - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
     inputs:
       command: 'pack'
@@ -121,10 +121,10 @@ jobs:
       minorVersion: '$(Minor)'
       patchVersion: '$(Patch)'
       basePath: '$(Build.ArtifactStagingDirectory)\drop'
-      packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
+      packDestination: '$(Build.ArtifactStagingDirectory)/nuget'
   - script: |
-      dir /s $(Build.ArtifactStagingDirectory)\nuget
+      dir /s $(Build.ArtifactStagingDirectory)/nuget
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/nuget'
       ArtifactName: 'nuget'
