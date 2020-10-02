@@ -89,7 +89,7 @@ jobs:
 
 - job: CreateNuget
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'windows-latest'
   timeoutInMinutes: 10
   dependsOn: PublishMRT
   condition: Always() # TODO Don't use always in the future
