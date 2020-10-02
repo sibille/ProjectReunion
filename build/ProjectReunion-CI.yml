@@ -120,6 +120,8 @@ jobs:
       patchVersion: '$(Patch)'
       basePath: '$(Build.ArtifactStagingDirectory)\drop'
       packDestination: '$(Build.ArtifactStagingDirectory)\nuget'
+  - script: |
+      dir /s $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\nuget'
