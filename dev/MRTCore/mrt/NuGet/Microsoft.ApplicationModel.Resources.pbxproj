@@ -3,7 +3,7 @@
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" Label="FirstImport"/>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
    <PropertyGroup>
-     <TargetNuSpecFile>Microsoft.ApplicationModel.Resources.nuspec</TargetNuSpecFile>
+     <TargetNuSpecFile>Microsoft.ProjectReunion.nuspec</TargetNuSpecFile>
      <EnableNuGetVerboseLogging>true</EnableNuGetVerboseLogging>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
