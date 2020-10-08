@@ -55,7 +55,6 @@ jobs:
 - template: AzurePipelinesTemplates\ProjectReunion-CreateNugetPackage-Job.yml
   parameters:
     jobName: CreateNugetPackage
-    dependsOn: PublishMRT
     prereleaseVersionTag: ci
 
 # Build solution that depends on nuget package
