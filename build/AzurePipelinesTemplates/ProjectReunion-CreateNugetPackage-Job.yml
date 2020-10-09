@@ -58,8 +58,13 @@ jobs:
   # - script: |
   #     dir /s $(Build.SourcesDirectory)
 
-  - script: |
-      echo Result of PublishMRT: '${{ dependencies.PublishMRT.result }}'
+  # - script: |
+  #     echo Result of PublishMRT: '${{ dependencies.PublishMRT.result }}'
+
+  - task: CmdLine@2
+    displayName: Show variables
+    inputs:
+      script: 'printenv'
 
   - template: ProjectReunion-InstallNuget-Steps.yml
 
