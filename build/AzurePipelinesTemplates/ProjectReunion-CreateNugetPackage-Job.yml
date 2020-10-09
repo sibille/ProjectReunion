@@ -17,6 +17,7 @@ jobs:
 - job: ${{ parameters.jobName }}
   dependsOn:
     - PublishMRT
+  condition: always()
 
   # XES tasks need to be on PackageES machines.
   ${{if parameters.signConfig }}:
