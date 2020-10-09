@@ -55,8 +55,11 @@ jobs:
       downloadPath: '$(Build.SourcesDirectory)\Artifacts'
 
   # debugging - remove or comment out before completing PR      
+  # - script: |
+  #     dir /s $(Build.SourcesDirectory)
+
   - script: |
-      dir /s $(Build.SourcesDirectory)
+      echo Result of PublishMRT: '${{ dependencies.PublishMRT.result }}'
 
   - template: ProjectReunion-InstallNuget-Steps.yml
 
