@@ -74,5 +74,5 @@ PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReuni
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Symbols\Microsoft.ProjectReunion.pdb $PublishDir\fwp\runtimes\win10-$Platform\native\
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.winmd $PublishDir\fwp\lib\uap10.0\
 
-PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.lib $PublishDir\thin_nuget\lib\win10-$Platform\
-PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.winmd $PublishDir\thin_nuget\lib\uap10.0\
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.lib $PublishDir\fatnuget\lib\win10-$Platform\
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.winmd $PublishDir\fatnuget\lib\uap10.0\
