@@ -8,7 +8,7 @@ Param(
 )
 
 $FullBuildOutput = "$($BuildOutputDir)\$($Configuration)\$($Platform)"
-$FullPublishDir = "$($PublishDir)\$($Configuration)\$($Platform)"
+$FullPublishDir = "$($PublishDir)\$($Configuration)\$($Platform)\reunion_binaries"
 
 if (!(Test-Path $FullPublishDir)) { mkdir $FullPublishDir }
 
@@ -68,3 +68,11 @@ if($PublishAppxFiles)
 $symbolsOutputDir = "$($FullPublishDir)\Symbols\"
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.pdb $symbolsOutputDir
 
+
+# Copy files to thin nuget and FWP respectively
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.dll $PublishDir\fwp\runtimes\win10-$Platform\native\
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Symbols\Microsoft.ProjectReunion.pdb $PublishDir\fwp\runtimes\win10-$Platform\native\
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.winmd $PublishDir\fwp\lib\uap10.0\
+
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.lib $PublishDir\thin_nuget\lib\win10-$Platform\
+PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.winmd $PublishDir\thin_nuget\lib\uap10.0\
