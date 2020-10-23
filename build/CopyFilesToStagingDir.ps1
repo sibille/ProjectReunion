@@ -8,7 +8,7 @@ Param(
 )
 
 $FullBuildOutput = "$($BuildOutputDir)\$($Configuration)\$($Platform)"
-$FullPublishDir = "$($PublishDir)\reunion_binaries\$($Configuration)\$($Platform)\reunion_binaries"
+$FullPublishDir = "$($PublishDir)\$($Configuration)\$($Platform)\reunion_binaries"
 
 if (!(Test-Path $FullPublishDir)) { mkdir $FullPublishDir }
 
