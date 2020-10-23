@@ -8,7 +8,7 @@ Param(
 )
 
 $FullBuildOutput = "$($BuildOutputDir)\$($Configuration)\$($Platform)"
-$FullPublishDir = "$($PublishDir)\$($Configuration)\$($Platform)\reunion_binaries"
+$FullPublishDir = "$($PublishDir)\reunion_binaries\$($Configuration)\$($Platform)"
 
 if (!(Test-Path $FullPublishDir)) { mkdir $FullPublishDir }
 
@@ -69,7 +69,7 @@ $symbolsOutputDir = "$($FullPublishDir)\Symbols\"
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.pdb $symbolsOutputDir
 
 
-# Copy files to nuget package directory
+# Also copy files to nuget package directory
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.dll $PublishDir\fatnuget\runtimes\win10-$Platform\native\
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Symbols\Microsoft.ProjectReunion.pdb $PublishDir\fatnuget\runtimes\win10-$Platform\native\
 PublishFile -IfExists $FullBuildOutput\projectreunion_dll\Microsoft.ProjectReunion.lib $PublishDir\fatnuget\lib\win10-$Platform\
