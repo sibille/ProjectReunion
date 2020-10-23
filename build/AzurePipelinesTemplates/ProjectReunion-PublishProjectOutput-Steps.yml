@@ -12,17 +12,11 @@ steps:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifact: ${{ parameters.artifactName }}'
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: ${{ parameters.artifactName }}
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\reunion_binaries'
+      artifactName: reunion_binaries
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifact: fatnuget'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\fatnuget'
-      artifactName: thin_nuget #todo change this to fat once I merge
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifact: fwp'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\fwp'
-      artifactName: fwp
+      artifactName: fatnuget #todo change this to fat once I merge
