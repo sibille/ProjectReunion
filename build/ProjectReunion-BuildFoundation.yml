@@ -8,6 +8,18 @@ parameters:
     default: False
 
 jobs:
+- job: GetCompInProc
+  pool:
+    name: Package ES Lab E
+  variables:
+    system_accesstoken: $(System.AccessToken)
+  steps:
+    - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+
 - job: Build
   # Skip the build job if we are reusing the output of a previous build.
   # useBuildOutputFromBuildId variable is set on the Pipeline at Queue time.
@@ -42,6 +54,7 @@ jobs:
     appxPackageDir : $(build.artifactStagingDirectory)\$(buildConfiguration)\$(buildPlatform)\AppxPackages
     buildOutputDir : $(Build.SourcesDirectory)\BuildOutput
     publishDir : $(Build.ArtifactStagingDirectory)
+    system_accesstoken: $(System.AccessToken)
   steps:
 
   # Download and extract nuget package with non-stubbed MicrosoftTelemetry.h header
