@@ -18,7 +18,7 @@
     <OutDir Condition="'$(Platform)' == 'Win32'">$(BaseOutputPath)\x86\</OutDir>
 
     <OutputPath>$(OutDir)\$(MSBuildProjectName)\</OutputPath>
-
+    <NuGetPackageRoot>$(MSBuildThisFileDirectory)packages</NuGetPackageRoot>
     <GeneratedFilesDir>$(BaseIntermediateOutputPath)Generated Files\</GeneratedFilesDir>
     <GenerateProjectSpecificOutputFolder>True</GenerateProjectSpecificOutputFolder>
   </PropertyGroup>

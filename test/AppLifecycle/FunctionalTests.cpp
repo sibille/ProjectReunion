@@ -5,6 +5,8 @@
 #include <testdef.h>
 #include "Shared.h"
 
+#include <FrameworkUdk/Theming.h>
+
 using namespace WEX::Common;
 using namespace WEX::Logging;
 using namespace WEX::TestExecution;
@@ -102,6 +104,11 @@ namespace ProjectReunionCppTest
             END_TEST_METHOD_PROPERTIES();
 
             VERIFY_IS_NOT_NULL(AppLifecycle::GetActivatedEventArgs());
+        }
+
+        TEST_METHOD(TestPrivateAPIFromFrameworkUDK)
+        {
+            VERIFY_ARE_EQUAL(Theming_TrySetDarkTheme(nullptr, true), E_HANDLE);
         }
 
         TEST_METHOD(GetActivatedEventArgsForLaunch)
