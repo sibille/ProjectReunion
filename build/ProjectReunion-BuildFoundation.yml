@@ -14,6 +14,11 @@ jobs:
   variables:
     system_accesstoken: $(System.AccessToken)
   steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
   - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
     displayName: 'NuGet restore ProjectReunion.sln'
     inputs:
