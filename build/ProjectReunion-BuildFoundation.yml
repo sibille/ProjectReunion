@@ -18,7 +18,16 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+        $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+        foreach($pkg in $packages)
+        {
+          if($pkg -like "CompInproc*")
+          {
+            $compPackage = $pkg.Substring(0, $pkg.IndexOf(" "))
+            $PackageVersion = $pkg.Substring($pkg.IndexOf(" ") + 1)
+            nuget install -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json' -Version $PackageVersion -DirectDownload -NoCache $compPackage
+          }
+        }
 
 - job: Build
   # Skip the build job if we are reusing the output of a previous build.
