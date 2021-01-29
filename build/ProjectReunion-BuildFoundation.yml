@@ -14,20 +14,26 @@ jobs:
   variables:
     system_accesstoken: $(System.AccessToken)
   steps:
-  - task: PowerShell@2
+  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+    displayName: 'NuGet restore ${{ parameters.solutionPath }}'
     inputs:
-      targetType: 'inline'
-      script: |
-        $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
-        foreach($pkg in $packages)
-        {
-          if($pkg -like "CompInproc*")
-          {
-            $compPackage = $pkg.Substring(0, $pkg.IndexOf(" "))
-            $PackageVersion = $pkg.Substring($pkg.IndexOf(" ") + 1)
-            nuget install -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json' -Version $PackageVersion -DirectDownload -NoCache $compPackage
-          }
-        }
+      restoreSolution: ${{ parameters.solutionPath }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetConfigPath }}
+  # - task: PowerShell@2
+  #   inputs:
+  #     targetType: 'inline'
+  #     script: |
+  #       $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+  #       foreach($pkg in $packages)
+  #       {
+  #         if($pkg -like "CompInproc*")
+  #         {
+  #           $compPackage = $pkg.Substring(0, $pkg.IndexOf(" "))
+  #           $PackageVersion = $pkg.Substring($pkg.IndexOf(" ") + 1)
+  #           nuget install -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json' -Version $PackageVersion -DirectDownload -NoCache $compPackage
+  #         }
+  #       }
 
 - job: Build
   # Skip the build job if we are reusing the output of a previous build.
