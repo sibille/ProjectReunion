@@ -18,7 +18,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+        nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
 
 - job: Build
   # Skip the build job if we are reusing the output of a previous build.
