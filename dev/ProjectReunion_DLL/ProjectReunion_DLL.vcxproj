@@ -335,7 +335,6 @@
     <None Include="ProjectReunion.def" />
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(NuGetPackageRoot)\CompInproc.amd64fre.10.0.21299.1002-210125-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\packages\Microsoft.Windows.ImplementationLibrary.1.0.200519.2\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\..\packages\Microsoft.Windows.ImplementationLibrary.1.0.200519.2\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />

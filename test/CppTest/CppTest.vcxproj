@@ -44,9 +44,9 @@
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
     <ProjectName>CppTest</ProjectName>
   </PropertyGroup>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.amd64fre.10.0.21299.1002-210125-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets" Condition="'$(Platform)'=='x64'"/>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.arm64fre.10.0.21299.1002-210125-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets" Condition="'$(Platform)'=='ARM64'"/>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.x86fre.10.0.21299.1002-210125-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets" Condition="'$(Platform)'=='Win32'"/>
+  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.amd64fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets" Condition="'$(Platform)'=='x64'"/>
+  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.arm64fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets" Condition="'$(Platform)'=='ARM64'"/>
+  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.x86fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets" Condition="'$(Platform)'=='Win32'"/>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
