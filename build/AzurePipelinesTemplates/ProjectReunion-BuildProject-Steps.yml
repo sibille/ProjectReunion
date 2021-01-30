@@ -74,4 +74,3 @@ steps:
 #      filePath: build\SourceIndexing\IndexPdbs.ps1
 #      arguments: -SearchDir '${{ parameters.buildOutputDir }}\$(buildConfiguration)' -SourceRoot '$(Build.SourcesDirectory)' -recursive -Verbose -CommitId $(Build.SourceVersion)
 #      errorActionPreference: silentlyContinue
-
