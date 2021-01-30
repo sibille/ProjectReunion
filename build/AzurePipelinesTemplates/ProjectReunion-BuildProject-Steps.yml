@@ -63,7 +63,7 @@ steps:
     displayName: 'Run AppLifeCycleTest'
     inputs:
       script: 'nuget.exe list CompInproc -Prerelease -Source https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
-      workingDirectory: '$(Build.SourcesDirectory)\tools'
+      workingDirectory: '$(Build.SourcesDirectory)\BuildOutput\$(buildConfiguration)\$(buildPlatform)\CppTest'
     condition: or(eq(variables.buildPlatform, 'x64'), eq(variables.buildPlatform, 'x86'))
 
   - task: PublishBuildArtifacts@1
