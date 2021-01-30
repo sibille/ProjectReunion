@@ -43,6 +43,13 @@ steps:
 #      workingDirectory: $(Build.SourcesDirectory)\tools\ProjectReunionPGODatabase
 #      filePath: $(Build.SourcesDirectory)\tools\ProjectReunionPGODatabase\restore-pgodb.ps1
 
+  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2	
+    displayName: 'NuGet restore ${{ parameters.solutionPath }}'	
+    inputs:	
+      restoreSolution: ${{ parameters.solutionPath }}	
+      feedsToUse: config	
+      nugetConfigPath: ${{ parameters.nugetConfigPath }}
+
   - task: VSBuild@1
     displayName: 'Build solution ${{ parameters.solutionPath }}'
     inputs:
@@ -74,3 +81,4 @@ steps:
 #      filePath: build\SourceIndexing\IndexPdbs.ps1
 #      arguments: -SearchDir '${{ parameters.buildOutputDir }}\$(buildConfiguration)' -SourceRoot '$(Build.SourcesDirectory)' -recursive -Verbose -CommitId $(Build.SourceVersion)
 #      errorActionPreference: silentlyContinue
+
