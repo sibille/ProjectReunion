@@ -321,7 +321,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dev\ProjectReunion_DLL\ProjectReunion_DLL.vcxproj">
-      <Project>{b73ad907-6164-4294-88fb-f3c9c10da1f1}</Project>E:\ProjectReunion\ProjectReunion\test\CppTest\CppTest.vcxproj
+      <Project>{b73ad907-6164-4294-88fb-f3c9c10da1f1}</Project>
       <Private>true</Private>
     </ProjectReference>
     <ProjectReference Include="..\TestApps\AppLifecycleTestApp\AppLifecycleTestApp.vcxproj">	
