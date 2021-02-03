@@ -7,7 +7,7 @@ parameters:
     type: boolean
     default: False
 
-# jobs:
+jobs:
 # - job: GetCompInProc
 #   pool:
 #     name: Package ES Lab E
