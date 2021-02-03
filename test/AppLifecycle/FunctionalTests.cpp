@@ -4,6 +4,7 @@
 #include "pch.h"
 #include <testdef.h>
 #include "Shared.h"
+#include <FrameworkUdk/Theming.h>
 
 using namespace WEX::Common;
 using namespace WEX::Logging;
@@ -78,6 +79,12 @@ namespace ProjectReunionCppTest
             m_failed = CreateTestEvent(c_testFailureEventName);
             return true;
         }
+
+        TEST_METHOD(TestPrivateAPIFromFrameworkUDK)
+        {
+            VERIFY_ARE_EQUAL(Theming_TrySetDarkTheme(nullptr, true), E_HANDLE);
+        }
+
 
         // Validate that UWP is not a supported scenario.
         TEST_METHOD(GetActivatedEventArgsIsNull)
