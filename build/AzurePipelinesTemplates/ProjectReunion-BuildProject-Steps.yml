@@ -34,6 +34,22 @@ steps:
     inputs:
       filename: 'set'
 
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $packages = $(Build.SourcesDirectory)\tools\nuget.exe list CompInproc -Prerelease -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json'
+        foreach($pkg in $packages)
+        {
+          if($pkg -like "CompInproc*")
+          {
+            $compPackage = $pkg.Substring(0, $pkg.IndexOf(" "))
+            $PackageVersion = $pkg.Substring($pkg.IndexOf(" ") + 1)
+            Write-Host "lol Nuget Install $compPackage version $PackageVersion"
+            $(Build.SourcesDirectory)\tools\nuget.exe install -Source 'https://microsoft.pkgs.visualstudio.com/_packaging/DCPP/nuget/v3/index.json' -Version $PackageVersion -DirectDownload -NoCache $compPackage -OutputDirectory $(Build.SourcesDirectory)\packages
+          }
+        }
+
 # UNDONE - will be turned on in later PR
 #  - task: powershell@2
 #    displayName: 'Restore PGO database'
