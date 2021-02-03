@@ -6,6 +6,7 @@ parameters:
   - name: "ReleaseSigning"
     type: boolean
     default: False
+    nugetVersion: 5.2.0
 
 jobs:
 - job: GetCompInProc
@@ -13,8 +14,6 @@ jobs:
     name: Package ES Lab E
   variables:
     system_accesstoken: $(System.AccessToken)
-  parameters:
-    nugetVersion: 5.2.0
   steps:
   - task: NuGetToolInstaller@0
     displayName: 'Use NuGet ${{ parameters.nugetVersion }}'
