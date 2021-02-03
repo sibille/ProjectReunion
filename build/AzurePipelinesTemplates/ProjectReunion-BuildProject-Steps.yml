@@ -45,7 +45,7 @@ steps:
 
 #UNDONE- fix guid?
 
- - task: NuGetToolInstaller@0
+  - task: NuGetToolInstaller@0
     displayName: 'Use NuGet 5.2.0'
     inputs:
       versionSpec:  5.2.0
