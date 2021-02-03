@@ -44,9 +44,6 @@
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
     <ProjectName>CppTest</ProjectName>
   </PropertyGroup>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.amd64fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets" Condition="'$(Platform)'=='x64'"/>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.arm64fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets" Condition="'$(Platform)'=='ARM64'"/>
-  <Import Project="$(MSBuildThisFileDirectory)..\..\packages\CompInproc.x86fre.10.0.21303.1000-210128-1000.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets" Condition="'$(Platform)'=='Win32'"/>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -336,6 +333,10 @@
     <Import Project="..\..\packages\Microsoft.Windows.ImplementationLibrary.1.0.200519.2\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\..\packages\Microsoft.Windows.ImplementationLibrary.1.0.200519.2\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
     <Import Project="..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\..\packages\Microsoft.Taef.Redist.Wlk.10.58.210126003-develop\build\Taef.Redist.Wlk.targets" Condition="Exists('..\..\packages\Microsoft.Taef.Redist.Wlk.10.58.210126003-develop\build\Taef.Redist.Wlk.targets')" />
+    <Import Project="..\..\packages\CompInproc.amd64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets" Condition="'$(Platform)'=='x64' and Exists('..\..\packages\CompInproc.amd64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets')"/>
+    <Import Project="..\..\packages\CompInproc.arm64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets" Condition="'$(Platform)'=='ARM64' and Exists('..\..\packages\CompInproc.arm64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets')"/>
+    <Import Project="..\..\packages\CompInproc.x86fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets" Condition="'$(Platform)'=='Win32' and Exists('..\..\packages\CompInproc.x86fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets')"/>
+  
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -345,5 +346,8 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.Taef.Redist.Wlk.10.58.210126003-develop\build\Taef.Redist.Wlk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Taef.Redist.Wlk.10.58.210126003-develop\build\Taef.Redist.Wlk.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Windows.CppWinRT.2.0.200703.9\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('..\..\packages\CompInproc.amd64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets')" Text="$([System.String]::Format('$(ErrorText)', ..\..\packages\CompInproc.amd64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.amd64fre.targets'))" />
+    <Error Condition="!Exists('..\..\packages\CompInproc.arm64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets')" Text="$([System.String]::Format('$(ErrorText)', ..\..\packages\CompInproc.arm64fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.arm64fre.targets" />
+    <Error Condition="!Exists('..\..\packages\CompInproc.x86fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets')" Text="$([System.String]::Format('$(ErrorText)', ..\..\packages\CompInproc.x86fre.10.0.21306.1001-210201-1014.rs-wdx-dxp-ixp1\build\native\CompInproc.x86fre.targets'))" />
   </Target>
 </Project>
