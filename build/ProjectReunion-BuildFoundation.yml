@@ -35,7 +35,7 @@ jobs:
   condition:
     eq(variables['useBuildOutputFromBuildId'],'')
   pool:
-    name: Package ES Lab E
+    vmImage: 'windows-2019'
   timeoutInMinutes: 120
   strategy:
     maxParallel: 10
