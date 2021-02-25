@@ -150,6 +150,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <RestoreSources Include="https://microsoft.pkgs.visualstudio.com/_packaging/WindowsES-External/nuget/v3/index.json" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>

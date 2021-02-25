@@ -6,7 +6,9 @@
     <Platforms>x64;x86</Platforms>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-
+  <ItemGroup>
+    <RestoreSources Include="https://microsoft.pkgs.visualstudio.com/_packaging/WindowsES-External/nuget/v3/index.json" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.1.0" />
   </ItemGroup>
