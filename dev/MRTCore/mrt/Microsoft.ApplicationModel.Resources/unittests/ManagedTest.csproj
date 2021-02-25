@@ -155,6 +155,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\src\Microsoft.ApplicationModel.Resources.vcxproj">
       <Project>{9b3b03bc-1bc0-43ea-b3ff-d5214f3cf5cf}</Project>
       <Name>Microsoft.ApplicationModel.Resources</Name>
