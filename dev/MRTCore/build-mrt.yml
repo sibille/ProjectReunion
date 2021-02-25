@@ -61,14 +61,14 @@ steps:
 
 # NuGetCommand@2
 - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-  displayName: 'NuGet restore of mrm unittests'
+  displayName: 'NuGet restore of mrt Microsoft.ApplicationModel.Resources projection'
   inputs:
     command: 'custom'
     arguments: 'restore ${{ parameters.MRTSourcesDirectory }}\mrt\Microsoft.ApplicationModel.Resources\projection\packages.config -ConfigFile nuget.config -PackagesDirectory ${{ parameters.MRTSourcesDirectory }}\mrt\packages'
 
 # NuGetCommand@2
 - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-  displayName: 'NuGet restore of mrm unittests'
+  displayName: 'NuGet restore of mrt Microsoft.ApplicationModel.Resources unittests'
   inputs:
     command: 'custom'
     arguments: 'restore ${{ parameters.MRTSourcesDirectory }}\mrt\Microsoft.ApplicationModel.Resources\unittests\packages.config -ConfigFile nuget.config -PackagesDirectory ${{ parameters.MRTSourcesDirectory }}\mrt\packages'
@@ -121,7 +121,7 @@ steps:
     platform: '$(buildPlatform)'
     solution: '${{ parameters.MRTSourcesDirectory }}\mrt\MrtCore.sln'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/restore /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="${{ parameters.appxPackageDir }}" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /binaryLogger:$(Build.SourcesDirectory)/mrtcore.$(buildPlatform).$(buildConfiguration).binlog'
+    msbuildArguments: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="${{ parameters.appxPackageDir }}" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /binaryLogger:$(Build.SourcesDirectory)/mrtcore.$(buildPlatform).$(buildConfiguration).binlog'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish mrtcore binlog'
