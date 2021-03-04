@@ -47,7 +47,7 @@ jobs:
     name: signingCert
     displayName: 'Download CA certificate'
     inputs:
-      secureFile: 'WNP_Reunion.pfx'
+      secureFile: 'MSIXPackager_TemporaryKey.pfx'
   # Download and extract nuget package with non-stubbed MicrosoftTelemetry.h header
 #  - task: DownloadPackage@1
 #    displayName: 'Download Microsoft.Telemetry.Inbox.Native'
