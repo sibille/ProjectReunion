@@ -43,11 +43,6 @@ jobs:
     buildOutputDir : $(Build.SourcesDirectory)\BuildOutput
     publishDir : $(Build.ArtifactStagingDirectory)
   steps:
-  - task: DownloadSecureFile@1
-    name: signingCert
-    displayName: 'Download CA certificate'
-    inputs:
-      secureFile: 'MSIXPackager_TemporaryKey.pfx'
   # Download and extract nuget package with non-stubbed MicrosoftTelemetry.h header
 #  - task: DownloadPackage@1
 #    displayName: 'Download Microsoft.Telemetry.Inbox.Native'
