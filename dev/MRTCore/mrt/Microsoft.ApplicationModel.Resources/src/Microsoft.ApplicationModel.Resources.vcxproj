@@ -109,7 +109,7 @@
       <WarningLevel>Level4</WarningLevel>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <!--Temporarily disable cppwinrt heap enforcement to work around xaml compiler generated std::shared_ptr use -->
-      <AdditionalOptions Condition="'$(CppWinRTHeapEnforcement)'==''">/DWINRT_NO_MAKE_DETECTION %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(CppWinRTHeapEnforcement)'==''">/DWINRT_NO_MAKE_DETECTION /Zi /Gf /Gy %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <PreprocessorDefinitions>_WINRT_DLL;WIN32_LEAN_AND_MEAN;WINRT_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -126,6 +126,9 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/debug /debugtype:cv,fixup /opt:ref /opt:icf /incremental:no %(AdditionalOptions)</AdditionalOptions>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -182,10 +185,10 @@
   </ItemGroup>
   <PropertyGroup>
     <Udk-Arch Condition="'$(Platform)' == 'AnyCPU'">x86</Udk-Arch>
-    <Udk-Arch Condition="'$(Platform)' == 'Win32'" >x86</Udk-Arch>
-    <Udk-Arch Condition="'$(Platform)' == 'x86'"   >x86</Udk-Arch>
-    <Udk-Arch Condition="'$(Platform)' == 'x64'"   >amd64</Udk-Arch>
-    <Udk-Arch Condition="'$(Platform)' == 'arm64'" >arm64</Udk-Arch>
+    <Udk-Arch Condition="'$(Platform)' == 'Win32'">x86</Udk-Arch>
+    <Udk-Arch Condition="'$(Platform)' == 'x86'">x86</Udk-Arch>
+    <Udk-Arch Condition="'$(Platform)' == 'x64'">amd64</Udk-Arch>
+    <Udk-Arch Condition="'$(Platform)' == 'arm64'">arm64</Udk-Arch>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

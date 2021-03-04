@@ -104,7 +104,7 @@
            supported according to the CRT maintainer. Dynamic linking against the CRT makes the binaries a bit smaller
            than they would otherwise be if the CRT, runtime, and STL were all statically linked in. -->
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries);libucrtd.lib</IgnoreSpecificDefaultLibraries>
-      <AdditionalOptions>%(AdditionalOptions) /defaultlib:ucrtd.lib</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /defaultlib:ucrtd.lib /debug /debugtype:cv,fixup /opt:ref /opt:icf /incremental:no</AdditionalOptions>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
@@ -132,6 +132,7 @@
     </Link>
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/Zi /Gf /Gy %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
